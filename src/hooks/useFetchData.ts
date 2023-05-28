@@ -1,31 +1,41 @@
 import { useEffect, useState } from "react";
+import { CountryDetail } from "../types";
 
-const useFetchData = (url: string) => {
+interface FetchDataResult {
+  data: CountryDetail | [];
+  error: boolean;
+  loading: boolean;
+}
+
+const useFetchData = (url: string): FetchDataResult => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (url:string) => {
-    setError(false);
-    setLoading(true);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      setData(data);
-      setLoading(false);
-	  // console.log(data[0])
-    } catch (err) {}
-    setLoading(false);
-    setError(true);
-  }
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      setError(false);
+      setLoading(true);
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setData(data);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    const controller = new AbortController();
 
-  useEffect(()=>{
-	fetchData(url)
-  }, [url])
+    fetchData();
+    return () => {
+      controller.abort();
+      console.log("Fetch Aborted... ");
+    };
+  }, [url]);
 
-  return {data, error, pending: loading }
+  return { data, error, loading };
 };
 
-
-export default useFetchData
-
+export default useFetchData;
