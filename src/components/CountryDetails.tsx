@@ -7,9 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { CountryDetail } from "../types";
+import { useEffect, Dispatch, SetStateAction } from "react";
+import {  useNavigate, useParams } from "react-router-dom";
+// import { CountryDetail } from "../types";
 import { tableStyles } from "../utils";
 const columns: GridColDef[] = [
   { field: "alpha_two_code", headerName: "Country Code", flex: 1 },
@@ -62,32 +62,33 @@ export default function CountryDetails({
 {
   rows: GridRowsProp;
   allData: GridRowsProp;
+  setSelectedCountry: Dispatch<SetStateAction<string | undefined>>
+
 }) {
   // const [filteredData, setFilteredData] = useState([]);
   // const [selectedCountry, setSelectedCountry] = useState("");
   const { countryCode } = useParams();
-  const [currentCountryData, setCurrentCountryData] = useState([]);
-
-  const navigate = useNavigate();
+  // const [_, setCurrentCountryData] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!allData.length) {
       setSelectedCountry(countryCode?.toUpperCase());
+      navigate("/")
     }
     setSelectedCountry(countryCode?.toUpperCase());
   }, [countryCode]);
 
-  const filterCountries = (countryCode: string) => {
-    const filtered: CountryDetail = allData.filter(
-      (row) => countryCode === row.alpha_two_code.toLowerCase()
-    );
-    setCurrentCountryData((prev) => {
-      return filtered;
-    });
-    if (!filtered.length) {
-      navigate("/");
-    }
-  };
+  // const filterCountries = (countryCode: string) => {
+  //   const filtered: CountryDetail = allData.filter(
+  //     (row) => countryCode === row.alpha_two_code.toLowerCase()
+  //   );
+  //   setCurrentCountryData(filtered);
+  //   if (!filtered.length) {
+  //     navigate("/");
+  //   }
+  // };
+  // console.log(filterCountries)
 
   return (
     <Container style={{ height: "75vh", width: "100%" }}>

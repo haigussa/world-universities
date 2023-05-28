@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import useFetchData from "./hooks/useFetchData";
-import { useState } from "react";
+import {  useState } from "react";
+// import { Dispatch, SetStateAction } from "react";
 import { getUniqueCountries } from "./utils";
 import CountryGrid from "./components/CountryGrid";
 import CountryDetails from "./components/CountryDetails";
@@ -8,27 +9,30 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CountryDetail } from "./types";
 import Loading from "./components/Loading";
+// import { GridRowId } from "@mui/x-data-grid";
+// import { GridValidRowModel } from "@mui/x-data-grid";
 
-function App() {
+const App= () => {
   const {
     data,
-    error,
+    // error,
     pending: loading,
   } = useFetchData("http://universities.hipolabs.com/search");
-  const [filteredData, setFilteredData] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [filteredData, setFilteredData] = useState<CountryDetail>([]);
+  // const [_, setSelectedCountry] = useState<string>("");
+  const [, setSelectedCountry] = useState<string | undefined>();
 
-  const filterCountries = (countryCode: string) => {
+  const filterCountries = (countryCode: string|undefined) => {
     const filtered: CountryDetail = data.filter(
       (row) => countryCode === row["alpha_two_code"]
     );
     setFilteredData(filtered);
   };
 
-  const handleCountrySelect = (row: string) => {
+  const handleCountrySelect = (row: any) => {
     setSelectedCountry(row);
     filterCountries(row);
-    navigate(`${row.toLowerCase()}`);
+    navigate(`${row?.toLowerCase()}`);
   };
 
   const navigate = useNavigate();
@@ -53,7 +57,7 @@ function App() {
                 setSelectedCountry={setSelectedCountry}
                 rows={filteredData}
                 allData={data}
-                setFilteredData={setFilteredData}
+                // setFilteredData={setFilteredData}
               />
             }
           />
@@ -73,6 +77,6 @@ function App() {
       )}
     </Container>
   );
-}
+};
 
 export default App;

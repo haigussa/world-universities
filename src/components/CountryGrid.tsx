@@ -10,7 +10,7 @@ export default function CountryGrid({
   handleCountrySelect,
 }: {
   rows: GridRowsProp;
-  handleCountrySelect: (e: React.ChangeEvent<{ value: unknown }>) => void;
+  handleCountrySelect: (e: React.ChangeEvent<{ value: string|undefined }>) => void;
 }) {
   //   const handleEvent: GridEventListener<"rowClick"> = (
   //     params, // GridRowParams
@@ -26,7 +26,7 @@ export default function CountryGrid({
   return (
     <div style={{ height: "75vh", width: "100%" }}>
       <DataGrid
-        onRowClick={(row) => handleCountrySelect(row.id)}
+        onRowClick={(row) => handleCountrySelect(row.row.countryCode.toString())}
         rows={rows}
         columns={columns}
         initialState={{
