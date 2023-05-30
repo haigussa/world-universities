@@ -6,18 +6,18 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridRowsProp, GridColDef, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from "@mui/x-data-grid";
 import { useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { tableStyles } from "../utils";
 const columns: GridColDef[] = [
-  { field: "alpha_two_code", headerName: "Country Code", flex: 1 },
-  { field: "country", headerName: "Country", flex: 2 },
+  // { field: "alpha_two_code", headerName: "Country Code", flex: 1 },
+  // { field: "country", headerName: "Country", flex: 2 },
   { field: "name", headerName: "University Name", align: "left", flex: 3 },
-  { field: "state-province", headerName: "State/Province", flex: 1 },
+  { field: "state-province", headerName: "State\nProvince", flex: 1, filterable:false },
   {
     field: "domains",
     headerName: "Domains",
+    filterable: false,
     flex: 2,
     renderCell: (params) => {
       return (
@@ -36,7 +36,8 @@ const columns: GridColDef[] = [
   {
     field: "web_pages",
     headerName: "Web Pages",
-    flex: 2,
+    flex: 2,    
+    filterable: false,
     renderCell: (params) => {
       return (
         <List dense={true}>
@@ -74,7 +75,7 @@ export default function CountryDetails({
   }, [countryCode]);
 
   return (
-    <Container style={{ height: "75vh", width: "100%" }}>
+    <Container style={{ height: "75vh", width: "100%"}}>
       {countryCode && rows[0]?.country && (
         <>
           <Typography variant="h4" gutterBottom>
@@ -93,7 +94,12 @@ export default function CountryDetails({
               },
             }}
             pageSizeOptions={[10, 15, 30]}
-            sx={tableStyles}
+            components={{Toolbar: ()=>(
+              <GridToolbarContainer sx={{justifyContent: 'flex-end'}}>
+                <GridToolbarFilterButton/>
+                <GridToolbarExport/>
+              </GridToolbarContainer>)}}
+            
           />
         </>
       )}

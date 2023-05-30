@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { CountryDetail } from "../types";
+import {  CountryDetailTypes } from "../types";
 
 interface FetchDataResult {
-  data: CountryDetail | [];
+  data: CountryDetailTypes | [];
   error: boolean;
   loading: boolean;
 }
