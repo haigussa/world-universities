@@ -7,9 +7,10 @@ import { useParams } from "react-router-dom";
 
 type FormProps = { setSearchResult: React.Dispatch< React.SetStateAction<readonly GridValidRowModel[]> >;
   searchCountries: boolean;
+  label: string;
 };
 
-const SearchForm: React.FC<FormProps> = ({ setSearchResult, searchCountries, }): JSX.Element => {
+const SearchForm: React.FC<FormProps> = ({ setSearchResult, searchCountries, label }): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [displaySearchResult, setDisplaySearchResult] = useState(false);
   const [totalSearchResult, setTotalSearchResult] = useState(0);
@@ -73,7 +74,7 @@ const SearchForm: React.FC<FormProps> = ({ setSearchResult, searchCountries, }):
       >
         <TextField
           fullWidth
-          label="Search Country..."
+          label= {label}
           id="search-fiel"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

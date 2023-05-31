@@ -1,7 +1,6 @@
 import { Button, Container, CssBaseline, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext, useState } from "react";
-// import { getUniqueCountries } from "./utils";
 import CountryList from "./components/CountryList";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -48,7 +47,6 @@ const App: React.FC = (): JSX.Element => {
     navigate(`${row?.toLowerCase()}`);
   };
 
-  // const uniqueCountries = getUniqueCountries(data);
   const theme = createTheme({
     palette: { mode: isDarkMode ? "dark" : "light" },
   });
@@ -87,7 +85,6 @@ const App: React.FC = (): JSX.Element => {
                     path="/"
                     element={
                       <CountryList
-                        // rows={uniqueCountries}
                         handleCountrySelect={handleCountrySelect}
                       />
                     }

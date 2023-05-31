@@ -90,7 +90,7 @@ export default function CountryUniversities({
             {rows[0].country}
           </Typography>
 
-          <SearchForm setSearchResult={setSearchResult} searchCountries={false} />
+          <SearchForm setSearchResult={setSearchResult} searchCountries={false} label="Search University..."/>
           <DataGrid 
             getRowHeight={() => "auto"}
             getRowId={(row) => row.name}

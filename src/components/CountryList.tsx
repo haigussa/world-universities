@@ -26,7 +26,7 @@ export default function CountryList({
 
   return (
     <div style={{ height: "75vh", width: "100%" }}>
-      <SearchForm setSearchResult={setSearchResult} searchCountries={true} />
+      <SearchForm setSearchResult={setSearchResult} searchCountries={true} label="Search Country..."/>
       <DataGrid
         onRowClick={(row) =>
           handleCountrySelect(row.row.countryCode.toString())
