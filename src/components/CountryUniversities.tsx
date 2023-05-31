@@ -1,19 +1,19 @@
-import {
-  Container,
-  Link,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import { DataGrid, GridRowsProp, GridColDef, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from "@mui/x-data-grid";
-import { useEffect, Dispatch, SetStateAction } from "react";
+import { Container, Link, List, ListItem, ListItemText, Typography, } from "@mui/material";
+import { DataGrid, GridRowsProp, GridColDef, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport, } from "@mui/x-data-grid";
+import { useEffect, Dispatch, SetStateAction, useContext, useState, } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { CountryContext, FetchDataResult } from "../CountryContext";
+import SearchForm from "./SearchForm";
 const columns: GridColDef[] = [
   // { field: "alpha_two_code", headerName: "Country Code", flex: 1 },
   // { field: "country", headerName: "Country", flex: 2 },
   { field: "name", headerName: "University Name", align: "left", flex: 3 },
-  { field: "state-province", headerName: "State\nProvince", flex: 1, filterable:false },
+  {
+    field: "state-province",
+    headerName: "State\nProvince",
+    flex: 1,
+    filterable: false,
+  },
   {
     field: "domains",
     headerName: "Domains",
@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
   {
     field: "web_pages",
     headerName: "Web Pages",
-    flex: 2,    
+    flex: 2,
     filterable: false,
     renderCell: (params) => {
       return (
@@ -53,16 +53,23 @@ const columns: GridColDef[] = [
     },
   },
 ];
+
 type CountryDetailsProps = {
   rows: GridRowsProp;
-  allData: GridRowsProp;
+  // allData: GridRowsProp;
   setSelectedCountry: Dispatch<SetStateAction<string | undefined>>;
 };
-export default function CountryDetails({
+
+export default function CountryUniversities({
   rows,
-  allData,
   setSelectedCountry,
 }: CountryDetailsProps): JSX.Element {
+  const [searchResult, setSearchResult] = useState<GridRowsProp>([]);
+
+  const contextValue = useContext<FetchDataResult | undefined>(CountryContext);
+  let { data } = contextValue || { data: [] };
+  const allData = data;
+
   const { countryCode } = useParams();
   const navigate = useNavigate();
 
@@ -75,16 +82,19 @@ export default function CountryDetails({
   }, [countryCode]);
 
   return (
-    <Container style={{ height: "75vh", width: "100%"}}>
-      {countryCode && rows[0]?.country && (
+    <Container style={{ height: "75vh", width: "100%" }}>
+    {searchResult && searchResult[0]?.country && console.log('unis')} 
+          {countryCode && rows[0]?.country && (
         <>
           <Typography variant="h4" gutterBottom>
             {rows[0].country}
           </Typography>
-          <DataGrid
+
+          <SearchForm setSearchResult={setSearchResult} searchCountries={false} />
+          <DataGrid 
             getRowHeight={() => "auto"}
             getRowId={(row) => row.name}
-            rows={rows}
+            rows={searchResult[0]?.country? searchResult : rows}
             columns={columns}
             initialState={{
               pagination: {
@@ -94,12 +104,14 @@ export default function CountryDetails({
               },
             }}
             pageSizeOptions={[10, 15, 30]}
-            components={{Toolbar: ()=>(
-              <GridToolbarContainer sx={{justifyContent: 'flex-end'}}>
-                <GridToolbarFilterButton/>
-                <GridToolbarExport/>
-              </GridToolbarContainer>)}}
-            
+            components={{
+              Toolbar: () => (
+                <GridToolbarContainer sx={{ justifyContent: "flex-end" }}>
+                  <GridToolbarFilterButton />
+                  <GridToolbarExport />
+                </GridToolbarContainer>
+              ),
+            }}
           />
         </>
       )}
