@@ -1,13 +1,9 @@
-import { DataGrid, GridRowsProp, GridColDef, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport, } from "@mui/x-data-grid";
+import { DataGrid, GridRowsProp, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport, } from "@mui/x-data-grid";
 import { useContext, useState } from "react";
 import SearchForm from "./SearchForm";
 import { CountryContext, FetchDataResult } from "../CountryContext";
 import { getUniqueCountries } from "../utils";
-
-const columns: GridColDef[] = [
-  { field: "countryCode", headerName: "Country Code", flex: 1 },
-  { field: "country", headerName: "Country", flex: 1 },
-];
+import { countryColumns as columns } from "../config/countryColumns";
 
 type CountryGridProps = {
   handleCountrySelect: (
