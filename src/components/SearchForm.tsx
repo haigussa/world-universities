@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button,  TextField, Typography } from "@mui/material";
 import { GridRowsProp, GridValidRowModel } from "@mui/x-data-grid";
 import { FormEvent, MouseEvent, useContext, useState } from "react";
 import { CountryContext, FetchDataResult } from "../CountryContext";
@@ -84,7 +84,7 @@ const SearchForm: React.FC<FormProps> = ({ setSearchResult, searchCountries, }):
           Search
         </Button>
       </form>
-      <Typography sx={{ font: "caption", mt: 2, mb: 2, textAlign: "center" }}>
+      <Typography sx={{ font: "caption", mt: 2, mb: 2, textAlign: "center",  padding: 2, color:  totalSearchResult? 'green': 'crimson', maxWidth: 'fit-content', margin: 'auto'}}>
         {" "}
         {displaySearchResult && `Found ${totalSearchResult} possible matches`}
       </Typography>
@@ -92,5 +92,4 @@ const SearchForm: React.FC<FormProps> = ({ setSearchResult, searchCountries, }):
     </Box>
   );
 };
-
 export default SearchForm;
